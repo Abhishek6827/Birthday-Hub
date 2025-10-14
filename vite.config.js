@@ -7,7 +7,6 @@ export default defineConfig({
   build: {
     outDir: "dist",
     assetsDir: "assets",
-    copyPublicDir: true, // Yeh line important hai
+    copyPublicDir: true,
   },
-  publicDir: "public", // Yeh bhi add karo
 });
