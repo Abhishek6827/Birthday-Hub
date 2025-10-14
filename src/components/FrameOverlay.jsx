@@ -5,6 +5,7 @@ export default function FrameOverlay({
   topThumbs = [],
   bottomThumbs = [],
 }) {
+  //done
   return (
     <>
       <div
