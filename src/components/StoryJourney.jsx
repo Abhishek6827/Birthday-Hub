@@ -20,49 +20,49 @@ const StoryJourney = ({ isActive, onSectionChange, onScrollChange }) => {
       title: "💫 Getting to Know You",
       content:
         "I started noticing the little things - how you smiled when someone cracked a joke, the way you tucked your hair behind your ear when concentrating.And while doing that, I didn't realize when I started caring for you more than I should have. You once scolded me for being too close, thinking it might give a wrong impression — and that hit me hard. I stayed silent, my mood changed, but that same evening, you talked to me again. And just like that, everything felt normal again. That's how we continued our friendship — with care, comfort, and a connection that kept growing stronger.",
-      image: "/image2.JPG",
+      image: "/image2.jpg",
       emotional: "Admiration → Growing Affection",
     },
     {
       title: "🌱 Nurturing Connection",
       content:
         "I made efforts to make you laugh, to understand your thoughts, to be there for you. Your happiness became my priority, your smile my biggest reward.But love isn't always calm.There were times when jealousy and misunderstandings crept in — sometimes from my side, sometimes from yours. I started overthinking little things because I cared too much.When we fought, it wasn't just arguments — it was pain. Because every time you stopped talking, I used to wait, hoping you'd call. When you didn't, it tore me apart. I was never angry at you; I was hurt because I missed you in ways I couldn't express.",
-      image: "/image3.JPEG",
+      image: "/image3.jpg",
       emotional: "Care → Dedication",
     },
     {
       title: "💌 Confession (14 June 2023)",
       content:
         "With a heart full of emotions I'd kept hidden, I confessed my feelings. I was nervous but hopeful, scared but determined to let you know how much you meant to me.Then came 14th June 2023 — the day I gathered the courage to confess my feelings. My heart was pounding, my words trembling. I didn't know what your reaction would be, but I couldn't hold it in any longer. You had already become someone I couldn't imagine my days without.That confession wasn't just about love — it was about everything I had felt, every emotion I had hidden behind my silence. It was the first time I truly opened my heart to someone, and that someone was you.",
-      image: "/image4.JPEG",
+      image: "/image4.jpg",
       emotional: "Vulnerability → Courage",
     },
     {
       title: "❤️ Commitment (19 September 2023)",
       content:
         "After overcoming initial hesitation, we committed to each other. That moment made all the waiting and uncertainty worth it. You became my 'someone special'.The first time I proposed, you said no — and honestly, it broke something inside me. But I didn't give up, because somewhere deep down, I felt there was more to our story.And when 19th September came — the day we finally committed to each other — it felt like every wound healed in that one moment. That day wasn't just a date, it was the beginning of us. For the first time, I felt complete, proud, and at peace.You became my person, the one I could talk about proudly — even at home, even with friends. You were the first person I felt genuinely secure about.",
-      image: "/image5.JPEG",
+      image: "/image5.jpg",
       emotional: "Hope → Commitment",
     },
     {
       title: "✨ Cherished Moments",
       content:
         "Every touch, every conversation, every moment together felt magical. I cherished making you feel loved, protected, and special in every way possible. 8th December — our first picture together.It might have looked like a simple photo to anyone else, but for me, it was everything. That picture had comfort, belonging, and a silent promise hidden in our smiles. It reminded me that sometimes, a single captured moment can hold a thousand feelings.",
-      image: "/image6.JPEG",
+      image: "/image6.jpg",
       emotional: "Love → Devotion",
     },
     {
       title: "⚡ Challenges We Faced",
       content:
         "Like any relationship, we had our misunderstandings. My jealousy sometimes got the better of me, but it only came from caring too much.Even when we drifted during those fights, my heart still longed for you. My friends still ask about you sometimes, and I can't help but smile — because no matter how much time has passed, your name still feels special.And every time I see you doing something productive, growing, becoming better — it makes me genuinely happy. Because that's all I ever wanted — to see you become the best version of yourself.",
-      image: "/image7.JPEG",
+      image: "/image7.jpg",
       emotional: "Fear → Understanding",
     },
     {
       title: "💔 Growing Apart",
       content:
         "Slowly, silence replaced our conversations. The distance grew, and the bond that once felt unbreakable started to fade, leaving both of us with unanswered questions.Eventually, the little fights, the insecurities, and the silence grew too heavy. We both tried, but somewhere, we lost the ease we once had.And even though we stopped talking, it never meant I stopped caring.There were nights I'd still think about everything — how it started, how it felt, how we drifted apart. That separation didn't just break our connection; it broke something inside me too.",
-      image: "/image8.JPEG",
+      image: "/image8.jpg",
       emotional: "Pain → Acceptance",
     },
   ];

@@ -82,7 +82,7 @@ const VideoSection = ({ isActive }) => {
       {/* Clean Background */}
       <div className="absolute inset-0 z-0">
         <img
-          src="/image23.JPEG"
+          src="/image23.jpg"
           alt="Video Background"
           className="w-full h-full object-cover opacity-30"
         />

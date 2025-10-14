@@ -7,44 +7,44 @@ const EverydayMoments = ({ isActive }) => {
   const [selectedMoment, setSelectedMoment] = useState(0);
 
   const backgroundImages = [
-    "/image9.JPEG",
-    "/image10.JPEG",
-    "/image11.JPEG",
-    "/image12.JPEG",
-    "/image13.JPEG",
+    "/image9.jpg",
+    "/image10.jpg",
+    "/image11.jpg",
+    "/image12.jpg",
+    "/image13.jpg",
   ];
 
   const casualMoments = [
     {
-      image: "/image14.JPG",
+      image: "/image14.jpg",
       title: "The Random Walk 🚶‍♀️",
       description:
         "That day you were just walking away from camera, laughing at something silly I said. Your laughter echoing in the corridor is a sound I'll always cherish.",
       emotional: "Spontaneous Joy",
     },
     {
-      image: "/image15.JPEG",
+      image: "/image15.jpg",
       title: "The Artist Side 🎨",
       description:
         "Your cute panda drawing that showed your creative side. I loved how focused you got when you were creating something beautiful.",
       emotional: "Creative Spirit",
     },
     {
-      image: "/image24.JPEG",
+      image: "/image24.jpg",
       title: "Classroom Focus 📚",
       description:
         "Concentrating in class, unaware I was admiring you from behind. Those stolen glances made lectures worth attending.",
       emotional: "Quiet Intensity",
     },
     {
-      image: "/image26.JPEG",
+      image: "/image26.jpg",
       title: "Side Profile 🌸",
       description:
         "Your beautiful side profile that I could never stop looking at. There was something magical about watching you lost in thought.",
       emotional: "Graceful Presence",
     },
     {
-      image: "/image27.JPEG",
+      image: "/image27.jpg",
       title: "Just Another Day ✨",
       description:
         "You sitting ahead of me in class, making ordinary days extraordinary. Your presence turned mundane moments into memories.",
