@@ -4,6 +4,19 @@ import { useState, useEffect } from "react";
 
 const BackgroundSlider = ({ images = [], children }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check for mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useEffect(() => {
     if (images.length === 0) return;
@@ -15,12 +28,27 @@ const BackgroundSlider = ({ images = [], children }) => {
     return () => clearInterval(interval);
   }, [images.length]);
 
+  // Adjust blur and scale based on screen size
+  const getImageStyles = () => {
+    if (isMobile) {
+      return {
+        filter: "blur(5px) brightness(0.6)",
+        transform: "scale(1.05)",
+      };
+    }
+    return {
+      filter: "blur(10px) brightness(0.6)",
+      transform: "scale(1.1)",
+    };
+  };
+
   return (
     <div
       style={{
         position: "relative",
         width: "100%",
         height: "100%",
+        minHeight: isMobile ? "300px" : "500px",
         overflow: "hidden",
       }}
     >
@@ -49,12 +77,12 @@ const BackgroundSlider = ({ images = [], children }) => {
                 width: "100%",
                 height: "100%",
                 objectFit: "cover",
-                filter: "blur(10px) brightness(0.6)",
-                transform: "scale(1.1)",
+                ...getImageStyles(),
                 pointerEvents: "none",
               }}
+              loading="lazy" // Better performance
             />
-            {/* Dark Overlay */}
+            {/* Responsive Dark Overlay */}
             <div
               style={{
                 position: "absolute",
@@ -62,15 +90,16 @@ const BackgroundSlider = ({ images = [], children }) => {
                 left: 0,
                 width: "100%",
                 height: "100%",
-                background:
-                  "linear-gradient(45deg, rgba(0,0,0,0.7), rgba(0,0,0,0.5))",
+                background: isMobile
+                  ? "linear-gradient(45deg, rgba(0,0,0,0.8), rgba(0,0,0,0.6))"
+                  : "linear-gradient(45deg, rgba(0,0,0,0.7), rgba(0,0,0,0.5))",
                 pointerEvents: "none",
               }}
             ></div>
           </div>
         ))}
 
-      {/* Content */}
+      {/* Responsive Content Container */}
       <div
         style={{
           position: "absolute",
@@ -82,9 +111,19 @@ const BackgroundSlider = ({ images = [], children }) => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          padding: isMobile ? "1rem" : "2rem",
+          boxSizing: "border-box",
         }}
       >
-        {children}
+        <div
+          style={{
+            width: "100%",
+            maxWidth: isMobile ? "100%" : "1200px",
+            textAlign: "center",
+          }}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );

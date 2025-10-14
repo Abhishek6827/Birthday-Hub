@@ -6,6 +6,7 @@ const VideoSection = ({ isActive }) => {
   const videoRef = useRef(null);
   const [currentVideo, setCurrentVideo] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const videos = [
     "./birthday-video.mp4",
@@ -28,6 +29,18 @@ const VideoSection = ({ isActive }) => {
     "🌸 Simple moments, deep memories",
     "🎈 Raw and real emotions",
   ];
+
+  // Check for mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useEffect(() => {
     if (isActive && videoRef.current && !isFullscreen) {
@@ -77,6 +90,24 @@ const VideoSection = ({ isActive }) => {
     }
   }, [isActive]);
 
+  // Handle keyboard events for fullscreen navigation
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (!isFullscreen) return;
+
+      if (e.key === "ArrowLeft") {
+        handlePrevVideo();
+      } else if (e.key === "ArrowRight") {
+        handleNextVideo();
+      } else if (e.key === "Escape") {
+        exitFullscreen();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
+    return () => window.removeEventListener("keydown", handleKeyPress);
+  }, [isFullscreen, currentVideo]);
+
   return (
     <section className="h-screen w-screen relative bg-gray-900 flex items-center justify-center overflow-hidden">
       {/* Clean Background */}
@@ -92,7 +123,7 @@ const VideoSection = ({ isActive }) => {
       {/* Fullscreen Video Modal */}
       {isFullscreen && (
         <div className="fixed inset-0 z-50 bg-black flex items-center justify-center">
-          <div className="relative w-full h-full flex items-center justify-center">
+          <div className="relative w-full h-full flex items-center justify-center p-4">
             <video
               ref={videoRef}
               loop={false}
@@ -100,7 +131,7 @@ const VideoSection = ({ isActive }) => {
               autoPlay
               playsInline
               className="w-full h-full object-contain"
-              controls
+              controls={isMobile} // Show native controls on mobile
               key={currentVideo}
               onEnded={() => {
                 handleVideoEnd();
@@ -116,11 +147,11 @@ const VideoSection = ({ isActive }) => {
             {/* Close Button */}
             <button
               onClick={exitFullscreen}
-              className="absolute top-4 right-4 bg-white/20 hover:bg-white/30 rounded-full p-3 transition-all duration-200 backdrop-blur-sm z-10"
+              className="absolute top-4 right-4 bg-white/20 hover:bg-white/30 rounded-full p-2 md:p-3 transition-all duration-200 backdrop-blur-sm z-10"
               aria-label="Close fullscreen"
             >
               <svg
-                className="w-6 h-6 text-white"
+                className="w-5 h-5 md:w-6 md:h-6 text-white"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -134,53 +165,57 @@ const VideoSection = ({ isActive }) => {
               </svg>
             </button>
 
-            {/* Navigation Arrows in Fullscreen */}
-            <button
-              onClick={handlePrevVideo}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 rounded-full p-4 transition-all duration-200 backdrop-blur-sm z-10"
-              aria-label="Previous video"
-            >
-              <svg
-                className="w-6 h-6 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </button>
+            {/* Navigation Arrows in Fullscreen - Hide on mobile when controls are visible */}
+            {!isMobile && (
+              <>
+                <button
+                  onClick={handlePrevVideo}
+                  className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 rounded-full p-3 md:p-4 transition-all duration-200 backdrop-blur-sm z-10"
+                  aria-label="Previous video"
+                >
+                  <svg
+                    className="w-5 h-5 md:w-6 md:h-6 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 19l-7-7 7-7"
+                    />
+                  </svg>
+                </button>
 
-            <button
-              onClick={handleNextVideo}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 rounded-full p-4 transition-all duration-200 backdrop-blur-sm z-10"
-              aria-label="Next video"
-            >
-              <svg
-                className="w-6 h-6 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </button>
+                <button
+                  onClick={handleNextVideo}
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 rounded-full p-3 md:p-4 transition-all duration-200 backdrop-blur-sm z-10"
+                  aria-label="Next video"
+                >
+                  <svg
+                    className="w-5 h-5 md:w-6 md:h-6 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </button>
+              </>
+            )}
 
             {/* Video Info in Fullscreen */}
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white/20 rounded-xl p-4 backdrop-blur-sm text-white text-center">
-              <p className="text-lg font-semibold">
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white/20 rounded-xl p-3 md:p-4 backdrop-blur-sm text-white text-center max-w-90vw">
+              <p className="text-sm md:text-lg font-semibold">
                 {videoEmotions[currentVideo]}
               </p>
-              <p className="text-sm opacity-90">
+              <p className="text-xs md:text-sm opacity-90 mt-1">
                 Memory {currentVideo + 1} of {videos.length}
               </p>
             </div>
@@ -194,29 +229,29 @@ const VideoSection = ({ isActive }) => {
           isActive ? "opacity-100" : "opacity-0"
         }`}
       >
-        {/* Header - Clean */}
-        <div className="text-center pt-8 pb-6">
+        {/* Header - Responsive */}
+        <div className="text-center pt-4 md:pt-8 pb-4 md:pb-6 px-4">
           <h2
-            className="text-3xl md:text-4xl font-bold mb-2 text-white"
+            className="text-2xl md:text-4xl font-bold mb-2 text-white"
             style={{
               textShadow: "2px 2px 8px rgba(0, 0, 0, 0.6)",
             }}
           >
             Our Beautiful Memories 🎬
           </h2>
-          <p className="text-lg text-white/90 font-medium">
+          <p className="text-base md:text-lg text-white/90 font-medium">
             Moments that are captured for eternity.
           </p>
-          <p className="text-sm text-white/80 mt-1">
+          <p className="text-xs md:text-sm text-white/80 mt-1">
             some precious moments with you
           </p>
         </div>
 
-        {/* Big Tiles Grid - Center Aligned */}
-        <div className="flex justify-center px-6">
-          <div className="w-full max-w-6xl">
-            {/* Video Thumbnails Grid - Big Tiles with Auto-play */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+        {/* Big Tiles Grid - Center Aligned with Responsive Padding */}
+        <div className="flex justify-center px-3 md:px-6 h-[calc(100%-120px)] md:h-[calc(100%-140px)]">
+          <div className="w-full max-w-6xl h-full">
+            {/* Video Thumbnails Grid - Responsive Layout */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6 h-full overflow-y-auto pb-4">
               {videos.map((video, index) => (
                 <div
                   key={index}
@@ -227,10 +262,10 @@ const VideoSection = ({ isActive }) => {
                   }`}
                   onClick={() => handleThumbnailClick(index)}
                 >
-                  {/* Big Video Thumbnail Container */}
-                  <div className="aspect-video rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 p-1">
+                  {/* Responsive Video Thumbnail Container */}
+                  <div className="aspect-video rounded-xl md:rounded-2xl overflow-hidden shadow-lg md:shadow-2xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 p-0.5 md:p-1">
                     {/* Video Thumbnail - Auto-playing */}
-                    <div className="relative w-full h-full rounded-xl overflow-hidden">
+                    <div className="relative w-full h-full rounded-lg md:rounded-xl overflow-hidden">
                       <video
                         className="w-full h-full object-cover"
                         muted
@@ -248,11 +283,11 @@ const VideoSection = ({ isActive }) => {
                       {/* Gradient Overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
 
-                      {/* Hover Play Button */}
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <div className="bg-white/30 rounded-full p-4 backdrop-blur-sm transform group-hover:scale-110 transition-transform duration-300">
+                      {/* Hover Play Button - Hidden on mobile for better performance */}
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:flex">
+                        <div className="bg-white/30 rounded-full p-3 md:p-4 backdrop-blur-sm transform group-hover:scale-110 transition-transform duration-300">
                           <svg
-                            className="w-8 h-8 text-white"
+                            className="w-6 h-6 md:w-8 md:h-8 text-white"
                             fill="currentColor"
                             viewBox="0 0 24 24"
                           >
@@ -261,9 +296,9 @@ const VideoSection = ({ isActive }) => {
                         </div>
                       </div>
 
-                      {/* Video Info */}
-                      <div className="absolute bottom-3 left-3 right-3">
-                        <p className="text-white font-semibold text-sm drop-shadow-lg">
+                      {/* Video Info - Responsive */}
+                      <div className="absolute bottom-2 left-2 right-2 md:bottom-3 md:left-3 md:right-3">
+                        <p className="text-white font-semibold text-xs md:text-sm drop-shadow-lg leading-tight md:leading-normal">
                           {videoEmotions[index]}
                         </p>
                         <div className="flex justify-between items-center mt-1">
@@ -278,16 +313,16 @@ const VideoSection = ({ isActive }) => {
                     </div>
                   </div>
 
-                  {/* Glow Effect on Hover */}
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 blur-xl"></div>
+                  {/* Glow Effect on Hover - Only on desktop */}
+                  <div className="absolute inset-0 rounded-xl md:rounded-2xl bg-gradient-to-r from-blue-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 blur-xl hidden md:block"></div>
                 </div>
               ))}
             </div>
 
-            {/* Final Message - Clean */}
-            <div className="text-center mt-8 mb-6">
-              <div className="bg-white/10 rounded-2xl p-6 backdrop-blur-sm border border-white/20 inline-block">
-                <p className="text-xl text-white font-light italic">
+            {/* Final Message - Responsive */}
+            <div className="text-center mt-4 md:mt-8 mb-4 md:mb-6 px-4">
+              <div className="bg-white/10 rounded-xl md:rounded-2xl p-4 md:p-6 backdrop-blur-sm border border-white/20 inline-block max-w-90vw">
+                <p className="text-base md:text-xl text-white font-light italic">
                   "Every moment with you is a beautiful memory worth cherishing
                   forever 💫"
                 </p>
@@ -296,6 +331,27 @@ const VideoSection = ({ isActive }) => {
           </div>
         </div>
       </div>
+
+      {/* Custom Scrollbar for Webkit browsers */}
+      <style jsx>{`
+        .overflow-y-auto::-webkit-scrollbar {
+          width: 6px;
+        }
+        .overflow-y-auto::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 10px;
+        }
+        .overflow-y-auto::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.3);
+          border-radius: 10px;
+        }
+        .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+          background: rgba(255, 255, 255, 0.5);
+        }
+        .max-w-90vw {
+          max-width: 90vw;
+        }
+      `}</style>
     </section>
   );
 };

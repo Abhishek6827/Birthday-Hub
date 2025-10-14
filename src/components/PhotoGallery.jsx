@@ -58,7 +58,7 @@ const PhotoGallery = ({ isActive }) => {
                   key={index}
                   src={photo || "/placeholder.svg"}
                   alt=""
-                  className="border-image"
+                  className="border-image horizontal-image"
                 />
               ))}
             </div>
@@ -72,7 +72,7 @@ const PhotoGallery = ({ isActive }) => {
                   key={index}
                   src={photo || "/placeholder.svg"}
                   alt=""
-                  className="border-image"
+                  className="border-image vertical-image"
                 />
               ))}
             </div>
@@ -86,7 +86,7 @@ const PhotoGallery = ({ isActive }) => {
                   key={index}
                   src={photo || "/placeholder.svg"}
                   alt=""
-                  className="border-image"
+                  className="border-image horizontal-image"
                 />
               ))}
             </div>
@@ -100,7 +100,7 @@ const PhotoGallery = ({ isActive }) => {
                   key={index}
                   src={photo || "/placeholder.svg"}
                   alt=""
-                  className="border-image"
+                  className="border-image vertical-image"
                 />
               ))}
             </div>
@@ -183,6 +183,7 @@ const PhotoGallery = ({ isActive }) => {
             position: absolute;
             background: rgba(0, 0, 0, 0.9);
             pointer-events: none;
+            overflow: hidden;
           }
 
           .border-top {
@@ -237,7 +238,7 @@ const PhotoGallery = ({ isActive }) => {
             flex-direction: column;
             animation: marqueeVertical 30s linear infinite;
             height: 100%;
-            padding: 12px 0;
+            padding: 0 12px;
           }
 
           .marquee-vertical-reverse {
@@ -245,17 +246,29 @@ const PhotoGallery = ({ isActive }) => {
             flex-direction: column;
             animation: marqueeVerticalReverse 30s linear infinite;
             height: 100%;
-            padding: 12px 0;
+            padding: 0 12px;
           }
 
           .border-image {
             display: inline-block;
-            height: clamp(40px, 8vw, 56px);
-            width: clamp(40px, 8vw, 56px);
             object-fit: cover;
-            margin: 0 clamp(8px, 2vw, 12px);
             border-radius: 8px;
             border: 2px solid rgba(255, 255, 255, 0.2);
+            flex-shrink: 0;
+          }
+
+          /* Horizontal images (top & bottom) */
+          .horizontal-image {
+            height: clamp(40px, 8vw, 56px);
+            width: clamp(40px, 8vw, 56px);
+            margin: 0 clamp(8px, 2vw, 12px);
+          }
+
+          /* Vertical images (left & right) - Fixed spacing */
+          .vertical-image {
+            width: clamp(40px, 8vw, 56px);
+            height: clamp(40px, 8vw, 56px);
+            margin: clamp(12px, 2vw, 16px) 0;
           }
 
           /* Main Content */
@@ -455,13 +468,48 @@ const PhotoGallery = ({ isActive }) => {
               padding: clamp(50px, 10vw, 60px) clamp(40px, 8vw, 60px);
             }
 
-            .border-image {
+            .horizontal-image {
               margin: 0 6px;
+            }
+
+            .vertical-image {
+              margin: 10px 0;
             }
 
             .main-photo-frame {
               width: 85vw;
               height: 45vh;
+            }
+
+            /* Adjust vertical marquee padding for mobile */
+            .marquee-vertical,
+            .marquee-vertical-reverse {
+              padding: 0 8px;
+            }
+          }
+
+          /* Extra small devices */
+          @media (max-width: 360px) {
+            .border-left,
+            .border-right {
+              width: 50px;
+            }
+
+            .border-top,
+            .border-bottom {
+              height: 50px;
+            }
+
+            .vertical-image {
+              width: 35px;
+              height: 35px;
+              margin: 8px 0;
+            }
+
+            .horizontal-image {
+              width: 35px;
+              height: 35px;
+              margin: 0 5px;
             }
           }
         `}</style>
