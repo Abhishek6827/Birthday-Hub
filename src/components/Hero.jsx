@@ -4,10 +4,10 @@ const Hero = ({ isActive }) => {
   const [currentBg, setCurrentBg] = useState(0);
 
   const backgroundImages = [
-    "/image11.jpg",
-    "/image5.jpg",
-    "/image4.jpg",
-    "/image3.jpg",
+    "./image11.jpg",
+    "./image5.jpg",
+    "./image4.jpg",
+    "./image3.jpg",
   ];
 
   useEffect(() => {

@@ -37,7 +37,7 @@ const AudioPlayer = () => {
   return (
     <div className="fixed bottom-4 left-4 z-50" onClick={handleUserInteraction}>
       <audio ref={audioRef} loop preload="auto">
-        <source src="/birthday-music.mp3" type="audio/mp3" />
+        <source src="./birthday-music.mp3" type="audio/mp3" />
         Your browser does not support the audio element.
       </audio>
 

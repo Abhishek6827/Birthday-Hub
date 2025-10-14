@@ -4,7 +4,7 @@ const FinalMessage = ({ isActive }) => {
       {/* Background */}
       <div className="absolute inset-0">
         <img
-          src="/image20.jpg"
+          src="./image20.jpg"
           alt="Final Background"
           className="w-full h-full object-cover"
         />
@@ -201,7 +201,7 @@ const FinalMessage = ({ isActive }) => {
             >
               <div className="mb-4 md:mb-6">
                 <img
-                  src="/image13.jpg"
+                  src="./image13.jpg"
                   alt="Final Memory"
                   className="w-24 h-24 md:w-32 md:h-32 mx-auto object-cover rounded-full"
                   style={{

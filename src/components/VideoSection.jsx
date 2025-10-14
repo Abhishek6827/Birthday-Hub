@@ -8,14 +8,14 @@ const VideoSection = ({ isActive }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   const videos = [
-    "/birthday-video.mp4",
-    "/birthday-video1.mp4",
-    "/birthday-video2.mp4",
-    "/birthday-video3.mp4",
-    "/birthday-video4.mp4",
-    "/birthday-video5.mp4",
-    "/birthday-video6.mp4",
-    "/birthday-video7.mp4",
+    "./birthday-video.mp4",
+    "./birthday-video1.mp4",
+    "./birthday-video2.mp4",
+    "./birthday-video3.mp4",
+    "./birthday-video4.mp4",
+    "./birthday-video5.mp4",
+    "./birthday-video6.mp4",
+    "./birthday-video7.mp4",
   ];
 
   const videoEmotions = [
@@ -82,7 +82,7 @@ const VideoSection = ({ isActive }) => {
       {/* Clean Background */}
       <div className="absolute inset-0 z-0">
         <img
-          src="/image23.jpg"
+          src="./image23.jpg"
           alt="Video Background"
           className="w-full h-full object-cover opacity-30"
         />
