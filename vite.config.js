@@ -3,13 +3,11 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: process.env.NODE_ENV === "production" ? "/Birthday-Hub/" : "/",
+  base: "/Birthday-Hub/",
   build: {
+    outDir: "dist",
     assetsDir: "assets",
-    cssCodeSplit: false, // Yeh line add karo
+    copyPublicDir: true, // Yeh line important hai
   },
-  server: {
-    host: true,
-    port: 5173,
-  },
+  publicDir: "public", // Yeh bhi add karo
 });
