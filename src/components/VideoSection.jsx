@@ -9,12 +9,12 @@ const VideoSection = ({ isActive }) => {
 
   const videos = [
     "/birthday-video.mp4",
-    "/birthday-video1.MP4",
+    "/birthday-video1.mp4",
     "/birthday-video2.mp4",
-    "/birthday-video3.MP4",
+    "/birthday-video3.mp4",
     "/birthday-video4.mp4",
-    "/birthday-video5.MOV",
-    "/birthday-video6.MOV",
+    "/birthday-video5.mp4",
+    "/birthday-video6.mp4",
     "/birthday-video7.mp4",
   ];
 
