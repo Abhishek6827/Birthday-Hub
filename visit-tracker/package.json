@@ -1,5 +1,5 @@
 {
-  "name": "visit-tracker-backend",
+  "name": "visit-tracker",
   "version": "1.0.0",
   "description": "Backend for tracking website visits",
   "main": "server.js",

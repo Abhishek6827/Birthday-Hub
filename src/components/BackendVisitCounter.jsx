@@ -4,7 +4,7 @@ import { useEffect } from "react";
 const BackendVisitCounter = () => {
   useEffect(() => {
     // Backend URL - local testing ke liye
-    const backendUrl = "http://localhost:3001";
+    const backendUrl = "https://birthday-hub.onrender.com";
 
     const trackVisit = async () => {
       try {
