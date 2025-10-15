@@ -1,198 +1,158 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-const RealTimeVisitCounter = () => {
-  const [visitCount, setVisitCount] = useState(0);
-
+const DeviceSpecificVisitCounter = () => {
   useEffect(() => {
-    // Initial count load karein
-    const loadInitialData = () => {
-      const storedData = localStorage.getItem("realTimeVisitData");
-      if (storedData) {
-        const data = JSON.parse(storedData);
-        setVisitCount(data.totalVisits || 0);
-        return data;
+    // Unique device ID generate karega
+    const getDeviceId = () => {
+      let deviceId = localStorage.getItem("deviceId");
+      if (!deviceId) {
+        deviceId =
+          "device-" +
+          Math.random().toString(36).substr(2, 9) +
+          "-" +
+          Date.now();
+        localStorage.setItem("deviceId", deviceId);
       }
-      return {
-        totalVisits: 0,
-        visitHistory: [],
-        sessions: [],
-      };
+      return deviceId;
     };
 
-    let visitData = loadInitialData();
+    const deviceId = getDeviceId();
+    const isMobile = /Mobile/.test(navigator.userAgent);
+    const deviceType = isMobile ? "📱 Mobile" : "💻 Desktop";
 
-    // Visit count function
-    const countVisit = (type = "pageview") => {
-      const now = new Date();
-      const currentTime = now.toLocaleString();
+    // Device-specific data
+    const storedData = localStorage.getItem("deviceVisitData");
+    const now = new Date();
+    const currentTime = now.toLocaleString();
 
-      visitData.totalVisits = (visitData.totalVisits || 0) + 1;
-      visitData.lastVisit = currentTime;
-      visitData.visitHistory = visitData.visitHistory || [];
-      visitData.visitHistory.push({
-        time: currentTime,
-        type: type,
-        device: /Mobile/.test(navigator.userAgent) ? "mobile" : "desktop",
-      });
+    let visitData = storedData
+      ? JSON.parse(storedData)
+      : {
+          totalDevices: 0,
+          devices: {},
+          globalVisits: 0,
+        };
 
-      // Max 200 visits keep karein
-      if (visitData.visitHistory.length > 200) {
-        visitData.visitHistory = visitData.visitHistory.slice(-200);
-      }
-
-      // Daily visits track karein
-      const today = now.toDateString();
-      visitData.dailyVisits = visitData.dailyVisits || {};
-      visitData.dailyVisits[today] = (visitData.dailyVisits[today] || 0) + 1;
-
-      // Save data
-      localStorage.setItem("realTimeVisitData", JSON.stringify(visitData));
-      setVisitCount(visitData.totalVisits);
-
-      // Real-time console update
-      console.log(
-        `%c🎯 REAL-TIME VISIT #${visitData.totalVisits}`,
-        "color: #ec4899; font-size: 16px; font-weight: bold;"
-      );
-      console.log(
-        `%c📊 Type: ${type} | Device: ${
-          visitData.visitHistory[visitData.visitHistory.length - 1].device
-        }`,
-        "color: #a78bfa; font-size: 12px;"
-      );
+    // Current device ka data
+    const currentDevice = visitData.devices[deviceId] || {
+      visits: 0,
+      firstVisit: currentTime,
+      deviceType: deviceType,
+      visitHistory: [],
     };
 
-    // 1. Page load pe count
-    countVisit("pageview");
+    // Current device ke visits increase karo
+    currentDevice.visits += 1;
+    currentDevice.lastVisit = currentTime;
+    currentDevice.visitHistory.push(currentTime);
 
-    // 2. Page visibility change (tab switch)
-    const handleVisibilityChange = () => {
-      if (!document.hidden) {
-        setTimeout(() => {
-          countVisit("tab_switch");
-        }, 1000);
-      }
-    };
+    // Global counts update karo
+    if (!visitData.devices[deviceId]) {
+      visitData.totalDevices += 1; // Naya device hai
+    }
+    visitData.globalVisits += 1;
+    visitData.lastGlobalVisit = currentTime;
 
-    // 3. Window focus (browser focus)
-    const handleFocus = () => {
-      setTimeout(() => {
-        countVisit("focus");
-      }, 1000);
-    };
+    // Save device data
+    visitData.devices[deviceId] = currentDevice;
 
-    // 4. Mouse movement (activity detection)
-    let activityTimeout;
-    const handleActivity = () => {
-      clearTimeout(activityTimeout);
-      activityTimeout = setTimeout(() => {
-        countVisit("activity");
-      }, 30000); // 30 seconds of inactivity
-    };
+    // Save overall data
+    localStorage.setItem("deviceVisitData", JSON.stringify(visitData));
 
-    // 5. Before unload (closing tab)
-    const handleBeforeUnload = () => {
-      countVisit("page_exit");
-    };
-
-    // Event listeners setup
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    window.addEventListener("focus", handleFocus);
-    document.addEventListener("mousemove", handleActivity);
-    document.addEventListener("keypress", handleActivity);
-    document.addEventListener("click", handleActivity);
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    // Real-time display element create karein (optional)
-    const createRealTimeDisplay = () => {
-      const existingDisplay = document.getElementById(
-        "real-time-visit-counter"
-      );
-      if (existingDisplay) existingDisplay.remove();
-
-      const display = document.createElement("div");
-      display.id = "real-time-visit-counter";
-      display.innerHTML = `
-        <div style="
-          position: fixed;
-          top: 10px;
-          right: 10px;
-          background: rgba(0,0,0,0.8);
-          color: white;
-          padding: 10px;
-          border-radius: 10px;
-          font-size: 12px;
-          z-index: 10000;
-          border: 1px solid #ec4899;
-          backdrop-filter: blur(10px);
-        ">
-          <div>👁️ Live Visits: <strong>${visitData.totalVisits}</strong></div>
-          <div style="font-size: 10px; opacity: 0.8;">Real-time Tracking</div>
-        </div>
-      `;
-      document.body.appendChild(display);
-    };
-
-    createRealTimeDisplay();
+    // Console output - HAR DEVICE KA ALAG COUNT
+    console.log(
+      `%c📱 DEVICE VISIT - ${deviceType}`,
+      "color: #ec4899; font-size: 18px; font-weight: bold;"
+    );
+    console.log(
+      `%cThis Device Visits: ${currentDevice.visits}`,
+      "color: #f472b6; font-size: 14px; font-weight: bold;"
+    );
+    console.log(
+      `%cTotal Devices: ${visitData.totalDevices}`,
+      "color: #a78bfa; font-size: 12px;"
+    );
+    console.log(
+      `%cGlobal Visits: ${visitData.globalVisits}`,
+      "color: #34d399; font-size: 12px;"
+    );
+    console.log(
+      `%cDevice ID: ${deviceId.substring(0, 10)}...`,
+      "color: #6b7280; font-size: 10px;"
+    );
 
     // Global functions
-    window.showRealTimeStats = function () {
-      const data = JSON.parse(
-        localStorage.getItem("realTimeVisitData") || "{}"
-      );
+    window.showDeviceAnalytics = function () {
+      const data = JSON.parse(localStorage.getItem("deviceVisitData") || "{}");
 
       console.log(
-        `%c📊 REAL-TIME ANALYTICS`,
-        "color: #ec4899; font-size: 20px; font-weight: bold;"
+        `%c📊 DEVICE ANALYTICS`,
+        "color: #ec4899; font-size: 22px; font-weight: bold;"
       );
       console.log(
-        `%cTotal Visits: ${data.totalVisits || 0}`,
-        "color: #f472b6; font-size: 16px;"
+        `%cTotal Unique Devices: ${data.totalDevices || 0}`,
+        "color: #f472b6; font-size: 18px;"
+      );
+      console.log(
+        `%cTotal Global Visits: ${data.globalVisits || 0}`,
+        "color: #a78bfa; font-size: 16px;"
       );
 
-      if (data.visitHistory && data.visitHistory.length > 0) {
+      if (data.devices) {
         console.log(
-          `%c🕓 Visit Types:`,
-          "color: #34d399; font-size: 14px; font-weight: bold;"
+          `%c📱 Individual Devices:`,
+          "color: #34d399; font-size: 16px; font-weight: bold;"
         );
-
-        const typeCounts = {};
-        data.visitHistory.forEach((visit) => {
-          typeCounts[visit.type] = (typeCounts[visit.type] || 0) + 1;
-        });
-
-        Object.entries(typeCounts).forEach(([type, count]) => {
+        Object.entries(data.devices).forEach(([deviceId, deviceData]) => {
           console.log(
-            `%c   ${type}: ${count} times`,
+            `%c   ${deviceData.deviceType}: ${deviceData.visits} visits (First: ${deviceData.firstVisit})`,
             "color: #a7f3d0; font-size: 12px;"
           );
         });
       }
     };
 
-    window.resetRealTimeData = function () {
-      localStorage.removeItem("realTimeVisitData");
-      setVisitCount(0);
-      console.log(
-        `%c🔄 Real-time data reset!`,
-        "color: #ef4444; font-size: 16px; font-weight: bold;"
-      );
+    window.showMyDeviceStats = function () {
+      const data = JSON.parse(localStorage.getItem("deviceVisitData") || "{}");
+      const currentDeviceId = localStorage.getItem("deviceId");
+      const myDevice = data.devices?.[currentDeviceId];
+
+      if (myDevice) {
+        console.log(
+          `%c🎯 YOUR DEVICE STATS`,
+          "color: #3b82f6; font-size: 18px; font-weight: bold;"
+        );
+        console.log(
+          `%cType: ${myDevice.deviceType}`,
+          "color: #60a5fa; font-size: 14px;"
+        );
+        console.log(
+          `%cYour Visits: ${myDevice.visits}`,
+          "color: #60a5fa; font-size: 14px;"
+        );
+        console.log(
+          `%cFirst Visit: ${myDevice.firstVisit}`,
+          "color: #93c5fd; font-size: 12px;"
+        );
+        console.log(
+          `%cLast Visit: ${myDevice.lastVisit}`,
+          "color: #93c5fd; font-size: 12px;"
+        );
+      }
     };
 
-    // Cleanup
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-      window.removeEventListener("focus", handleFocus);
-      document.removeEventListener("mousemove", handleActivity);
-      document.removeEventListener("keypress", handleActivity);
-      document.removeEventListener("click", handleActivity);
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-      clearTimeout(activityTimeout);
+    window.resetAllDeviceData = function () {
+      localStorage.removeItem("deviceVisitData");
+      localStorage.removeItem("deviceId");
+      console.log(
+        `%c🔄 All device data reset!`,
+        "color: #ef4444; font-size: 16px; font-weight: bold;"
+      );
     };
   }, []);
 
   return null;
 };
 
-export default RealTimeVisitCounter;
+export default DeviceSpecificVisitCounter;
