@@ -5,7 +5,7 @@ import PhotoGallery from "./components/PhotoGallery";
 import VideoSection from "./components/VideoSection";
 import FinalMessage from "./components/FinalMessage";
 import AudioPlayer from "./components/AudioPlayer";
-import BackendVisitCounter from "./components/BackendVisitCounter";
+import TelegramNotifier from "./components/TelegramNotifier";
 
 function App() {
   const [currentSection, setCurrentSection] = useState(0);
@@ -125,7 +125,7 @@ function App() {
         {/* FinalMessage Section */}
         <section className="h-screen w-full">
           <FinalMessage isActive={currentSection === 4} />
-          <BackendVisitCounter />
+          <TelegramNotifier />
         </section>
       </div>
     </div>
