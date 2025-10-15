@@ -3,7 +3,7 @@ import { useEffect } from "react";
 
 const BackendVisitCounter = () => {
   useEffect(() => {
-    // Backend URL - local testing ke liye
+    // Backend URL
     const backendUrl = "https://birthday-hub.onrender.com";
 
     const trackVisit = async () => {
@@ -29,6 +29,11 @@ const BackendVisitCounter = () => {
           }),
         });
 
+        // Check if response is ok
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const data = await response.json();
 
         // Success message
@@ -47,13 +52,12 @@ const BackendVisitCounter = () => {
           "color: #34d399; font-size: 16px; font-weight: bold;"
         );
       } catch (error) {
-        // Backend offline
         console.log(
-          `%c⚠️ Backend offline - check if server is running`,
+          `%c⚠️ Backend connection failed: ${error.message}`,
           "color: #f59e0b; font-size: 14px; font-weight: bold;"
         );
         console.log(
-          `%c💡 Run this command: node server.js`,
+          `%c💡 Backend might be starting up... try again in 30 seconds`,
           "color: #6b7280; font-size: 12px;"
         );
       }
@@ -64,12 +68,12 @@ const BackendVisitCounter = () => {
     // Global functions
     window.getBackendAnalytics = async function () {
       try {
-        console.log(
-          `%c📡 Fetching analytics...`,
-          "color: #f59e0b; font-size: 14px;"
-        );
-
         const response = await fetch(`${backendUrl}/api/analytics`);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const data = await response.json();
 
         console.log(
@@ -102,52 +106,10 @@ const BackendVisitCounter = () => {
             "color: #a7f3d0; font-size: 14px;"
           );
         }
-
-        // Recent visits
-        if (data.recentVisits && data.recentVisits.length > 0) {
-          console.log(
-            `%c🕓 RECENT VISITS:`,
-            "color: #fbbf24; font-size: 16px; font-weight: bold;"
-          );
-          data.recentVisits.slice(0, 10).forEach((visit, index) => {
-            console.log(
-              `%c   ${index + 1}. ${visit.timestamp} - ${
-                visit.deviceType === "mobile" ? "📱" : "💻"
-              } ${visit.deviceType}`,
-              "color: #d1d5db; font-size: 11px;"
-            );
-          });
-        }
       } catch (error) {
         console.log(
-          `%c❌ Backend unavailable - server not running`,
+          `%c❌ Backend unavailable: ${error.message}`,
           "color: #ef4444; font-size: 16px; font-weight: bold;"
-        );
-        console.log(
-          `%c💡 Run this command in terminal:`,
-          "color: #6b7280; font-size: 12px;"
-        );
-        console.log(
-          `%c   cd visit-tracker-backend && node server.js`,
-          "color: #3b82f6; font-size: 12px; font-family: monospace;"
-        );
-      }
-    };
-
-    window.resetBackendData = async function () {
-      try {
-        const response = await fetch(`${backendUrl}/api/reset`, {
-          method: "DELETE",
-        });
-        const data = await response.json();
-        console.log(
-          `%c🔄 ${data.message}`,
-          "color: #10b981; font-size: 16px; font-weight: bold;"
-        );
-      } catch (error) {
-        console.log(
-          `%c❌ Reset failed - backend offline`,
-          "color: #ef4444; font-size: 16px;"
         );
       }
     };

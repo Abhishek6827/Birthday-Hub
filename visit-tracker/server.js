@@ -2,8 +2,19 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 
+// CORS setup - YEH ADD KARO
+const corsOptions = {
+  origin: [
+    "https://abhishek6827.github.io",
+    "http://localhost:3000",
+    "http://localhost:3001",
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+};
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions)); // YEH CHANGE KARO
 app.use(express.json());
 
 // Visit data store
@@ -110,8 +121,9 @@ app.get("/", (req, res) => {
   });
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
   console.log(`🚀 Backend server running on http://localhost:${PORT}`);
   console.log(`📊 Visit tracker ready!`);
+  console.log(`🌐 CORS enabled for GitHub Pages`);
 });
