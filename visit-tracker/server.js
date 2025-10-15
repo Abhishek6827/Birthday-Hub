@@ -2,25 +2,22 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 
-// CORS Configuration - YEH COMPLETE SETUP HAI
-const corsOptions = {
-  origin: [
-    "https://abhishek6827.github.io",
-    "http://localhost:3000",
-    "http://localhost:3001",
-    "https://abhishek6827.github.io/Birthday-Hub/",
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true,
-  optionsSuccessStatus: 200,
-};
+// CORS Configuration - SIMPLE AND EFFECTIVE
+app.use(
+  cors({
+    origin: [
+      "https://abhishek6827.github.io",
+      "http://localhost:3000",
+      "http://localhost:3001",
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
-// CORS middleware apply karo
-app.use(cors(corsOptions));
-
-// Pre-flight requests handle karo
-app.options("*", cors(corsOptions));
+// Handle pre-flight requests
+app.options("*", cors());
 
 // Body parser middleware
 app.use(express.json());
@@ -32,11 +29,27 @@ let visitData = {
   visitHistory: [],
 };
 
+// Helper function for Indian time format
+const getIndianTime = () => {
+  return new Date().toLocaleString("en-IN", {
+    timeZone: "Asia/Kolkata",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+  });
+};
+
 // Track visit endpoint
 app.post("/api/track-visit", (req, res) => {
   try {
     const { deviceType, userAgent } = req.body;
-    const timestamp = new Date().toLocaleString();
+
+    // Use Indian time format
+    const timestamp = getIndianTime();
 
     // Unique device ID
     const deviceId =
@@ -66,33 +79,28 @@ app.post("/api/track-visit", (req, res) => {
       ip: req.ip,
     });
 
-    // Keep only last 500 visits
-    if (visitData.visitHistory.length > 500) {
-      visitData.visitHistory = visitData.visitHistory.slice(-500);
+    // Keep only last 100 visits (reduce memory usage)
+    if (visitData.visitHistory.length > 100) {
+      visitData.visitHistory = visitData.visitHistory.slice(-100);
     }
 
     console.log(
       `📱 New visit from ${deviceType} - Total: ${visitData.totalVisits}`
     );
 
-    // CORS headers manually set karo
-    res.header("Access-Control-Allow-Origin", "https://abhishek6827.github.io");
-    res.header(
-      "Access-Control-Allow-Methods",
-      "GET, POST, PUT, DELETE, OPTIONS"
-    );
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-
     res.json({
       success: true,
       totalVisits: visitData.totalVisits,
       deviceVisits: visitData.devices[deviceId].visits,
       deviceType: deviceType,
+      timestamp: timestamp,
     });
   } catch (error) {
     console.error("Error in track-visit:", error);
-    res.header("Access-Control-Allow-Origin", "https://abhishek6827.github.io");
-    res.status(500).json({ success: false, error: error.message });
+    res.status(500).json({
+      success: false,
+      error: "Internal server error",
+    });
   }
 });
 
@@ -113,24 +121,20 @@ app.get("/api/analytics", (req, res) => {
       }
     });
 
-    // CORS headers
-    res.header("Access-Control-Allow-Origin", "https://abhishek6827.github.io");
-    res.header(
-      "Access-Control-Allow-Methods",
-      "GET, POST, PUT, DELETE, OPTIONS"
-    );
-
     res.json({
       totalVisits: visitData.totalVisits,
       uniqueDevices: Object.keys(visitData.devices).length,
       deviceCounts: deviceCounts,
-      recentVisits: visitData.visitHistory.slice(-20).reverse(),
+      recentVisits: visitData.visitHistory.slice(-30).reverse(), // Last 30 visits
       devices: visitData.devices,
+      lastUpdated: getIndianTime(),
     });
   } catch (error) {
     console.error("Error in analytics:", error);
-    res.header("Access-Control-Allow-Origin", "https://abhishek6827.github.io");
-    res.status(500).json({ success: false, error: error.message });
+    res.status(500).json({
+      success: false,
+      error: "Internal server error",
+    });
   }
 });
 
@@ -141,35 +145,39 @@ app.delete("/api/reset", (req, res) => {
     devices: {},
     visitHistory: [],
   };
-
-  res.header("Access-Control-Allow-Origin", "https://abhishek6827.github.io");
-  res.json({ success: true, message: "Data reset successfully" });
+  res.json({
+    success: true,
+    message: "Data reset successfully",
+    resetTime: getIndianTime(),
+  });
 });
 
 // Health check endpoint
 app.get("/health", (req, res) => {
-  res.header("Access-Control-Allow-Origin", "https://abhishek6827.github.io");
   res.json({
     status: "OK",
-    message: "Backend is running",
-    timestamp: new Date().toISOString(),
+    message: "Backend is running smoothly",
+    timestamp: getIndianTime(),
+    totalVisits: visitData.totalVisits,
+    uniqueDevices: Object.keys(visitData.devices).length,
   });
 });
 
 // Root endpoint
 app.get("/", (req, res) => {
-  res.header("Access-Control-Allow-Origin", "https://abhishek6827.github.io");
   res.json({
-    message: "Visit Tracker Backend is running!",
+    message: "🎯 Visit Tracker Backend is Live!",
+    status: "Running",
+    timestamp: getIndianTime(),
     endpoints: {
-      "POST /api/track-visit": "Track a visit",
-      "GET /api/analytics": "Get analytics",
-      "DELETE /api/reset": "Reset data",
+      "POST /api/track-visit": "Track a website visit",
+      "GET /api/analytics": "Get complete visit analytics",
+      "DELETE /api/reset": "Reset all visit data",
       "GET /health": "Health check",
     },
-    cors: {
-      allowedOrigins: ["https://abhishek6827.github.io"],
-      allowedMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    stats: {
+      totalVisits: visitData.totalVisits,
+      uniqueDevices: Object.keys(visitData.devices).length,
     },
   });
 });
@@ -178,5 +186,6 @@ const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
   console.log(`🚀 Backend server running on http://localhost:${PORT}`);
   console.log(`📊 Visit tracker ready!`);
-  console.log(`🌐 CORS enabled for: https://abhishek6827.github.io`);
+  console.log(`🌐 CORS enabled for GitHub Pages`);
+  console.log(`⏰ Timezone: Asia/Kolkata`);
 });
