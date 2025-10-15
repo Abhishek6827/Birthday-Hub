@@ -5,7 +5,7 @@ import PhotoGallery from "./components/PhotoGallery";
 import VideoSection from "./components/VideoSection";
 import FinalMessage from "./components/FinalMessage";
 import AudioPlayer from "./components/AudioPlayer";
-import RemoteMonitorCounter from "./components/RemoteMonitorCounter";
+import BackendVisitCounter from "./components/BackendVisitCounter";
 
 function App() {
   const [currentSection, setCurrentSection] = useState(0);
@@ -125,7 +125,7 @@ function App() {
         {/* FinalMessage Section */}
         <section className="h-screen w-full">
           <FinalMessage isActive={currentSection === 4} />
-          <RemoteMonitorCounter />
+          <BackendVisitCounter />
         </section>
       </div>
     </div>
