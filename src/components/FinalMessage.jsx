@@ -104,91 +104,48 @@ const FinalMessage = ({ isActive }) => {
                 📜 Our Untold Story
               </h3>
               <div className="text-base md:text-lg leading-relaxed md:leading-loose text-white/90 whitespace-pre-line">
-                In 2022, my eyes first found you there,{"\n"}A quiet soul, with
-                a gentle stare.{"\n"}
-                Your silence spoke more than words could say,{"\n"}
-                And slowly, our friendship paved the way.{"\n\n"}
-                On June 14th, I opened my heart,{"\n"}
-                Scared and trembling, not knowing where to start.{"\n"}A
-                confession I carried, heavy and true,{"\n"}
-                Every beat whispered—it belongs to you.{"\n\n"}
-                The first proposal broke me apart,{"\n"}
-                Your "no" carved silence deep in my heart.{"\n"}
-                But fate was kind, and in September's embrace,{"\n"}
-                We found commitment, love's sweetest place.{"\n\n"}
-                On December 8th, our first photo was made,{"\n"}A memory
-                eternal, that will never fade.{"\n"}
-                Two smiles together, captured in time,{"\n"}A priceless
-                moment—forever mine.{"\n\n"}
-                Every touch, so gentle, so real,{"\n"}
-                Brought a warmth no words could conceal.{"\n"}
-                After our fights, my soul would crave,{"\n"}
-                Your voice, your presence—the comfort I'd save.{"\n\n"}
-                When your call never came, my nights felt long,{"\n"}
-                The silence heavy, the absence strong.{"\n"}
-                My friends still ask, they speak your name,{"\n"}
-                And I feel the pride, the love, the flame.{"\n\n"}
-                You were the first I felt proud to show,{"\n"}
-                To my family, with a heart aglow.{"\n"}
-                And each time you built something bright and true,{"\n"}
-                The joy was mine, in watching you.{"\n\n"}
-                But love's path isn't always kind,{"\n"}
-                Jealousy lingered, clouding the mind.{"\n"}
-                Little fights, words left unsaid,{"\n"}
-                Turned warmth into distance, love into dread.{"\n\n"}
-                Hurt followed close, cutting so deep,{"\n"}
-                Scars in the heart that quietly we keep.{"\n"}
-                And slowly the silence grew too strong,{"\n"}A bond once
-                unbreakable started to go wrong.{"\n\n"}
-                Now we stand apart, with stories untold,{"\n"}
-                Hearts once burning, now quiet and cold.{"\n"}
-                Yet still in my chest, your memory stays,{"\n"}
-                Guiding my nights, coloring my days.{"\n\n"}
-                Shivani, no matter the distance we bear,{"\n"}A part of me will
-                always be there.{"\n"}
-                My story began the moment I found you,{"\n"}
-                And even in silence—my love is true.{"\n\n"}
-                You Were My Peace, You Were My Chaos{"\n\n"}
-                The day we met, it wasn't ordinary,{"\n"}
-                Your smile felt warm, your eyes felt merry.{"\n"}
-                From that moment, I knew somehow,{"\n"}
-                You'd matter to me — then, now, and how.{"\n\n"}
-                Your innocence made me care so deep,{"\n"}
-                Every word you said, my heart would keep.{"\n"}I worried for
-                you, your gentle soul,{"\n"}
-                Afraid this world might take its toll.{"\n\n"}I guided you,
-                taught you to grow,{"\n"}
-                To stand for yourself, to let them know.{"\n"}
-                Sometimes I went too close, too near,{"\n"}
-                You scolded me once — I still hear.{"\n\n"}
-                That evening we talked, like nothing went wrong,{"\n"}
-                And from that day, our bond grew strong.{"\n"}
-                We stayed together, through laugh and pain,{"\n"}
-                Through sunshine moments and sudden rain.{"\n\n"}
-                Then came June 14th, the day of truth,{"\n"}
-                When I confessed, with trembling youth.{"\n"}
-                You smiled — the world froze still,{"\n"}
-                My heart bowed down to your will.{"\n\n"}
-                Then September 19th marked our vow,{"\n"}A promise of forever —
-                I still keep somehow.{"\n"}
-                And December 8th, our first pic in frame,{"\n"}A moment eternal,
-                beyond just a name.{"\n\n"}
-                We fought sometimes, my words turned cold,{"\n"}
-                But your silence — that's what hurt the most.{"\n"}
-                When your call didn't come, I'd stare at the phone,{"\n"}
-                Feeling every second, painfully alone.{"\n\n"}
-                My friends still ask about you today,{"\n"}
-                And I just smile — what can I say?{"\n"}
-                You were the one I felt proud to show,{"\n"}
-                To my home, my heart — where few could go.{"\n\n"}
-                Every time you achieved something new,{"\n"}
-                It filled me with joy, proud of you.{"\n"}
-                You were the only one I felt so secure,{"\n"}
-                My peace, my reason, my heart's cure.{"\n\n"}
-                The touch, the warmth, the way you'd stay,{"\n"}
-                Those moments still don't fade away.{"\n"}
-                And even if time made us drift apart,{"\n"}
-                You still live quietly inside my heart.
+                In 2022, my eyes first found you there, A quiet soul, with a
+                gentle stare. Your silence spoke more than words could say, And
+                slowly, our friendship paved the way. The day we met, it wasn't
+                ordinary, Your smile felt warm, your eyes felt merry. From that
+                moment, I knew somehow, You'd matter to me — then, now, and how.
+                Your innocence made me care so deep, Every word you said, my
+                heart would keep. I worried for you, your gentle soul, Afraid
+                this world might take its toll. I guided you, taught you to
+                grow, To stand for yourself, to let them know. Sometimes I went
+                too close, too near, You scolded me once — I still hear. That
+                evening we talked, like nothing went wrong, And from that day,
+                our bond grew strong. We stayed together, through laugh and
+                pain, Through sunshine moments and sudden rain. On June 14th, I
+                opened my heart, Scared and trembling, not knowing where to
+                start. A confession I carried, heavy and true, Every beat
+                whispered—it belongs to you. The first proposal broke me apart,
+                Your "no" carved silence deep in my heart. But fate was kind,
+                and in September's embrace, We found commitment, love's sweetest
+                place. On September 19th marked our vow, A promise of forever —
+                I still keep somehow. And December 8th, our first photo was
+                made, A memory eternal, that will never fade. Two smiles
+                together, captured in time, A priceless moment—forever mine.
+                Every touch, so gentle, so real, Brought a warmth no words could
+                conceal. You were the first I felt proud to show, To my family,
+                with a heart aglow. And each time you built something bright and
+                true, The joy was mine, in watching you. When your call never
+                came, my nights felt long, The silence heavy, the absence
+                strong. My friends still ask, they speak your name, And I feel
+                the pride, the love, the flame. But love's path isn't always
+                kind, Jealousy lingered, clouding the mind. Little fights, words
+                left unsaid, Turned warmth into distance, love into dread. We
+                fought sometimes, my words turned cold, But your silence —
+                that's what hurt the most. Hurt followed close, cutting so deep,
+                Scars in the heart that quietly we keep. And slowly the silence
+                grew too strong, A bond once unbreakable started to go wrong.
+                Now we stand apart, with stories untold, Hearts once burning,
+                now quiet and cold. Yet still in my chest, your memory stays,
+                Guiding my nights, coloring my days. Shivani, no matter the
+                distance we bear, A part of me will always be there. You were my
+                peace, you were my chaos, My heart's cure, my reason across. My
+                story began the moment I found you, And even in silence—my love
+                is true.
               </div>
             </div>
 
